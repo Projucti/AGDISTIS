@@ -17,12 +17,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class WikiRequestService{   
-private static final String USER_AGENT = "Mozilla/5.0";
-public static Object finalresult = null;
-public static String AGDISTICS_result="[{\"disambiguatedURL\":\"http:\\/\\/www.wikidata.org\\/entity\\/Q76\",\"offset\":12,\"namedEntity\":\"Barack Obama\",\"start\":1}]";
+//private static final String USER_AGENT = "Mozilla/5.0";
+//public static Object finalresult = null;
+public static String AGDISTICS_result="[{\"disambiguatedURL\":\"http:\\/\\/www.wikidata.org\\/entity\\/Q19187538\",\"offset\":7,\"namedEntity\":\"dresden\",\"start\":1}]";
 public static URL url;
 public static HttpURLConnection con;
 public static String unique_identifier;
+public static String value;
 
 public static void main(String[] args)throws IOException, InterruptedException{  
 	try {
@@ -119,8 +120,43 @@ private static void getDescription(String url2) throws IOException, JSONExceptio
 			System.out.println("URL Content... \n" + html.toString());
 			
 			JSONObject obj_json= new JSONObject(html.toString());
-		    String loudScreaming = obj_json.getJSONObject("entities").getJSONObject(unique_identifier).getJSONObject("descriptions").getJSONObject("en").getString("value");
-			  System.out.println(loudScreaming);
+		    //String loudScreaming = obj_json.getJSONObject("entities").getJSONObject(unique_identifier).getJSONObject("descriptions").getJSONObject("en").getString("value");
+		    if(obj_json.getJSONObject("entities")!=null) {
+		    	JSONObject entities=obj_json.getJSONObject("entities");
+		    	if(entities.getJSONObject(unique_identifier)!=null) {
+		    		JSONObject unique_id= entities.getJSONObject(unique_identifier);
+		    		if(unique_id.getJSONObject("descriptions")!=null) {
+		    			JSONObject description= unique_id.getJSONObject("descriptions");
+		    			if(description.has("en")) {
+		    				//if(description.getJSONObject("en")!=null) {
+			    				JSONObject en_obj=description.getJSONObject("en");
+			    				if(en_obj.getString("value")!=null) {
+			    					String value= en_obj.getString("value");
+			    					System.out.println(value);
+			    				}
+				    		//}
+		    			}
+		    			else if(description.has("de")) {
+		    			
+		    			
+		    			//if (description.getJSONObject("de")!=null) {
+		    				JSONObject en_obj=description.getJSONObject("de");
+		    				if(en_obj.getString("value")!=null) {
+		    					String value= en_obj.getString("value");
+		    					System.out.println(value);
+		    				}
+		    			//}
+		    			}
+		    			else {
+		    				System.out.println("Description is not available in English/German");
+		    			}
+		    			
+		    			
+		    			
+		    		}
+		    		
+		    	}
+		    }
 
 		    } catch (Exception e) {
 			e.printStackTrace();
