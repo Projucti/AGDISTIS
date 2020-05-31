@@ -22,6 +22,7 @@ public static Object finalresult = null;
 public static String AGDISTICS_result="[{\"disambiguatedURL\":\"http:\\/\\/www.wikidata.org\\/entity\\/Q76\",\"offset\":12,\"namedEntity\":\"Barack Obama\",\"start\":1}]";
 public static URL url;
 public static HttpURLConnection con;
+public static String unique_identifier;
 
 public static void main(String[] args)throws IOException, InterruptedException{  
 	try {
@@ -32,6 +33,8 @@ public static void main(String[] args)throws IOException, InterruptedException{
     url=new URL(url_response+".json"); 
     System.out.println("Sent URL: ");
     System.out.println(url.toString());
+    unique_identifier= url_response.replace("http://www.wikidata.org/entity/","");
+    System.out.println(unique_identifier);
     getDescription(url.toString());
     }catch(Exception e){System.out.println(e);}  
 }
@@ -116,7 +119,7 @@ private static void getDescription(String url2) throws IOException, JSONExceptio
 			System.out.println("URL Content... \n" + html.toString());
 			
 			JSONObject obj_json= new JSONObject(html.toString());
-		    String loudScreaming = obj_json.getJSONObject("entities").getJSONObject("Q76").getJSONObject("descriptions").getJSONObject("en").getString("value");
+		    String loudScreaming = obj_json.getJSONObject("entities").getJSONObject(unique_identifier).getJSONObject("descriptions").getJSONObject("en").getString("value");
 			  System.out.println(loudScreaming);
 
 		    } catch (Exception e) {
