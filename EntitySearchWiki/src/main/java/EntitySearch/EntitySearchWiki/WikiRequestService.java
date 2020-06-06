@@ -17,9 +17,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class WikiRequestService{   
-//private static final String USER_AGENT = "Mozilla/5.0";
 //public static Object finalresult = null;
-public static String AGDISTICS_result="[{\"disambiguatedURL\":\"http:\\/\\/www.wikidata.org\\/entity\\/Q76\",\"offset\":7,\"namedEntity\":\"dresden\",\"start\":1}]";
+public static String search_entity="Dresden"; 
+public static String AGDISTICS_result=ServiceWikiAGDISTICS.SendRequest(search_entity);
+//public static String AGDISTICS_result="[{\"disambiguatedURL\":\"http:\\/\\/www.wikidata.org\\/entity\\/Q76\",\"offset\":7,\"namedEntity\":\"dresden\",\"start\":1}]";
 public static URL url;
 public static HttpURLConnection con;
 public static String unique_identifier;
@@ -41,27 +42,6 @@ public static void main(String[] args)throws IOException, InterruptedException{
 }
 
 private static void getDescription(String url2) throws IOException, JSONException {
-	// TODO Auto-generated method stub
-	/* URL myurl = new URL("https://www.wikidata.org/wiki/Special:EntityData/Q76.json");
-		con = (HttpURLConnection)myurl.openConnection();
-		con.setRequestMethod("GET");
-		BufferedReader br = new BufferedReader(
-			  new InputStreamReader(con.getInputStream()));
-			    StringBuffer response = new StringBuffer();
-			    String responseLine;
-			    while ((responseLine = br.readLine()) != null) {
-			        response.append(responseLine);
-			    }
-			    br.close();
-			    System.out.println("response: ");
-			    //System.out.println(response.toString());
-			  JSONObject obj_json= new JSONObject(response.toString());
-			  //System.out.println(obj_json);
-			  String loudScreaming = obj_json.getJSONObject("entities").getJSONObject("Q76").getJSONObject("descriptions").getJSONObject("en").getString("value");
-			  System.out.println(loudScreaming);
-			  
-	*/
-
 		    try {
 
 			String url = url2;
@@ -90,13 +70,10 @@ private static void getDescription(String url2) throws IOException, JSONExceptio
 
 			if (redirect) {
 
-				// get redirect url from "location" header field
+				// getting redirect url from "location" header field
 				String newUrl = conn.getHeaderField("Location");
-
-				// get the cookie if need, for login
 				String cookies = conn.getHeaderField("Set-Cookie");
 
-				// open the new connnection again
 				conn = (HttpURLConnection) new URL(newUrl).openConnection();
 				conn.setRequestProperty("Cookie", cookies);
 				conn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
@@ -128,30 +105,23 @@ private static void getDescription(String url2) throws IOException, JSONExceptio
 		    		if(unique_id.getJSONObject("descriptions")!=null) {
 		    			JSONObject description= unique_id.getJSONObject("descriptions");
 		    			if(description.has("en")) {
-		    				//if(description.getJSONObject("en")!=null) {
 			    				JSONObject en_obj=description.getJSONObject("en");
 			    				if(en_obj.getString("value")!=null) {
 			    					String value= en_obj.getString("value");
 			    					System.out.println(value);
 			    				}
-				    		//}
 		    			}
 		    			else if(description.has("de")) {
-		    			
-		    			
-		    			//if (description.getJSONObject("de")!=null) {
 		    				JSONObject en_obj=description.getJSONObject("de");
 		    				if(en_obj.getString("value")!=null) {
 		    					String value= en_obj.getString("value");
 		    					System.out.println(value);
 		    				}
-		    			//}
 		    			}
 		    			else {
 		    				System.out.println("Description is not available in English/German");
 		    			}
-		    			
-		    			
+	
 		    			
 		    		}
 		    		
@@ -161,11 +131,6 @@ private static void getDescription(String url2) throws IOException, JSONExceptio
 		    } catch (Exception e) {
 			e.printStackTrace();
 		    }
-
-		  
-
-		    
-
 
 }
 }
