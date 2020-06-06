@@ -19,7 +19,7 @@ import java.net.http.HttpResponse;
 public class WikiRequestService{   
 //private static final String USER_AGENT = "Mozilla/5.0";
 //public static Object finalresult = null;
-public static String AGDISTICS_result="[{\"disambiguatedURL\":\"http:\\/\\/www.wikidata.org\\/entity\\/Q19187538\",\"offset\":7,\"namedEntity\":\"dresden\",\"start\":1}]";
+public static String AGDISTICS_result="[{\"disambiguatedURL\":\"http:\\/\\/www.wikidata.org\\/entity\\/Q76\",\"offset\":7,\"namedEntity\":\"dresden\",\"start\":1}]";
 public static URL url;
 public static HttpURLConnection con;
 public static String unique_identifier;
